@@ -1,6 +1,6 @@
 #include "Structuri.h"
 
-using namespace personal;
+using namespace structuri;
 
 
 
