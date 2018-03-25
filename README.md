@@ -16,3 +16,6 @@ Sintaxa expresiei:
 * Caracterele __space__ din expresia citita nu sunt eliminate si se considera
 	ca parte a numelui unui operand.
 * Expresia de transformat trebuie scrisa pe un singur rand in consola.
+
+Solutia iterativa este o implementare a metodei descrise in [acest link](https://www.youtube.com/watch?v=sJ0VhIbvCtc).
+Implementarea mea difera de implementarea prezentata succint la finalul clipului.
