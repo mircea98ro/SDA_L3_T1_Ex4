@@ -189,35 +189,57 @@ string Solve_Iterativ(string exp)
 
 double Evaluare(string exp)
 {
+	//Stiva in care retinem operanzii.
 	structuri::Stiva opz;
+
+	//Stiva in care retinem operatorii.
+	//Fiecare element al stivei are un contor
+	//Ce va numara cati dintre operanzii operatiei
+	//Se gasesc in forma lor finala in stiva opz.
 	structuri::Stiva_count op;
 	string aux = "";
 	for (int i = 0; i < exp.length(); i++)
 	{
+		//Daca este un numar, atunci caracterul face parte dintr-un operand.
+		//Adaugam cifra in variabila ce retine operandul curent.
 		if (Rank(exp[i]) == 4 && exp[i] != ' ')
 		{
 			aux = aux + exp[i];
 			continue;
 		}
+
+		//Daca este un operator, caracterul este adaugat in stiva op.
 		if (Rank(exp[i]) == 2 || Rank(exp[i]) == 3)
 		{
 			op.push(string() + exp[i]);
 			continue;
 		}
+		//Daca intalnim un spatiu, iar aux contine un operand
+		//atunci am terminat de citit operandul si il adaugam in stiva opz.
 		if (exp[i] == ' ' && aux.length())
 		{
 			opz.push(aux);
+			//Structura formei prefixate presupune ca operandul proaspat adaugat
+			//este folosit in operatia din varful stivei op.
+			//Asadar marcam finalizarea gasirii unui operand prin incrementarea 
+			//contorului elementului din varful stivei op.
 			op.top_add();
 			aux.clear();
 		}
 
+		//Cat timp operatia din varful listei de operatori are contorul = 2
+		//ii cunoastem operanzii si deci vom calcula rezultatul operatiei.
+		//Rezultatul va fi un operand pentru operatia de pe elementul imediat sub varf.
 		while (op.top_i() == 2)
 		{
+			//Extragem cei 2 operanzi
 			double auxd,opz1,opz2;
 			opz2 = stod(opz.top());
 			opz.pop();
 			opz1 = stod(opz.top());
 			opz.pop();
+
+			//Calculam in auxd rezultatul operatiei
 			switch (op.top()[0])
 			{
 				case '+':
@@ -232,12 +254,22 @@ double Evaluare(string exp)
 				default:
 					auxd = opz1 / opz2;
 			}
+			//Retinem rezultatul in stiva.
 			opz.push(dtos(auxd));
+
+			//Eliminam operatia mai sus efectuata din stiva.
 			op.pop();
+
+			//Incrementam contorul noii operatii din varful stivei,
+			//Pentru ca rezultatul stocat mai sus in opz este un operator
+			//pentru aceasta operatie.
 			op.top_add();
 		}
 	}
 
+	//In forma prefixata ultimele caractere din expresie vor constitui cu siguranta un operand.
+	//Asadar, dupa parcurgerea expresiei, vom stoca in stiva si ultimul operand si vom 
+	//efectua rand pe rand operatiile ramase in stiva op.
 	opz.push(aux);
 	op.top_add();
 	aux.clear();
@@ -267,6 +299,9 @@ double Evaluare(string exp)
 		op.pop();
 		op.top_add();
 	}
+
+	//Stiva op va contine in final un element cu string = "" si contor = 1.
+	//contor != 2 asa ca se va iesi din bucla while, iar stiva opz va contine rezultatul final.
 	return stod(opz.top());
 }
 
