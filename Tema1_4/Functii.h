@@ -13,4 +13,5 @@ string Solve_Iterativ(string exp);
 
 double Evaluare(string exp);
 
+void Citire(string &exp);
 

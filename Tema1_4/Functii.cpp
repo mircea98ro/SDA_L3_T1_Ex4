@@ -2,6 +2,7 @@
 #include "Structuri.h"
 #include <algorithm>
 #include <sstream>
+#include <iostream>
 
 using namespace std;
 
@@ -267,4 +268,12 @@ double Evaluare(string exp)
 		op.top_add();
 	}
 	return stod(opz.top());
+}
+
+void Citire(string &exp)
+{
+	cout << "Expresie: ";
+	getline(cin, exp);
+	if (exp[0] == '-')
+		exp = "0" + exp;
 }
