@@ -16,6 +16,8 @@ char Rank(char c)
 		return 2;
 	if (c == '*' || c == '/')
 		return 3;
+	if (c >= '0' || c <= '9')
+		return 5;
 	return 4;
 }
 
@@ -200,9 +202,9 @@ double Evaluare(string exp)
 	string aux = "";
 	for (int i = 0; i < exp.length(); i++)
 	{
-		//Daca este un numar, atunci caracterul face parte dintr-un operand.
+		//Daca este o cifra, atunci caracterul face parte dintr-un operand.
 		//Adaugam cifra in variabila ce retine operandul curent.
-		if (Rank(exp[i]) == 4 && exp[i] != ' ')
+		if (Rank(exp[i]) == 5)
 		{
 			aux = aux + exp[i];
 			continue;
