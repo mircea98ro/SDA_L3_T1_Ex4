@@ -1,6 +1,7 @@
 #include "Functii.h"
 #include "Structuri.h"
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
 
@@ -15,6 +16,18 @@ char Rank(char c)
 	if (c == '*' || c == '/')
 		return 3;
 	return 4;
+}
+
+string dtos(double d)
+{
+	//Folosesc libraria <sstream> pentru tipul de date ostringstream.
+	//ostringstream = output string stream.
+	//"Afisez" variabila double in stream.
+	//Folosesc functiile predefinite pentru formatul ostringstream si returnez stringul creat din str_s.
+
+	ostringstream str_s;
+	str_s << d;
+	return str_s.str();
 }
 
 int poz = 0;
@@ -171,4 +184,87 @@ string Solve_Iterativ(string exp)
 
 	//Se returneaza rezultatul
 	return res;
+}
+
+double Evaluare(string exp)
+{
+	structuri::Stiva opz;
+	structuri::Stiva_count op;
+	string aux = "";
+	for (int i = 0; i < exp.length(); i++)
+	{
+		if (Rank(exp[i]) == 4 && exp[i] != ' ')
+		{
+			aux = aux + exp[i];
+			continue;
+		}
+		if (Rank(exp[i]) == 2 || Rank(exp[i]) == 3)
+		{
+			op.push(string() + exp[i]);
+			continue;
+		}
+		if (exp[i] == ' ' && aux.length())
+		{
+			opz.push(aux);
+			op.top_add();
+			aux.clear();
+		}
+
+		while (op.top_i() == 2)
+		{
+			double auxd,opz1,opz2;
+			opz2 = stod(opz.top());
+			opz.pop();
+			opz1 = stod(opz.top());
+			opz.pop();
+			switch (op.top()[0])
+			{
+				case '+':
+					auxd = opz1 + opz2;
+					break;
+				case '-':
+					auxd = opz1 - opz2;
+					break;
+				case '*':
+					auxd = opz1 * opz2;
+					break;
+				default:
+					auxd = opz1 / opz2;
+			}
+			opz.push(dtos(auxd));
+			op.pop();
+			op.top_add();
+		}
+	}
+
+	opz.push(aux);
+	op.top_add();
+	aux.clear();
+	//TO:DO Scurteaza codul aici
+	while (op.top_i() == 2)
+	{
+		double auxd, opz1, opz2;
+		opz2 = stod(opz.top());
+		opz.pop();
+		opz1 = stod(opz.top());
+		opz.pop();
+		switch (op.top()[0])
+		{
+		case '+':
+			auxd = opz1 + opz2;
+			break;
+		case '-':
+			auxd = opz1 - opz2;
+			break;
+		case '*':
+			auxd = opz1 * opz2;
+			break;
+		default:
+			auxd = opz1 / opz2;
+		}
+		opz.push(dtos(auxd));
+		op.pop();
+		op.top_add();
+	}
+	return stod(opz.top());
 }

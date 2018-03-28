@@ -23,7 +23,9 @@ int main()
 	cout << "Rezolvare Iterativa:\n" << Solve_Iterativ(exp) << '\n';
 
 	//Evaluare expresie data
-	//TODO
+	getline(cin, exp);
+
+	cout << "Evaluare forma prefixata:\n" << Evaluare(exp) << '\n';
 
 	return 0;
 }
